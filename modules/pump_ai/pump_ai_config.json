@@ -1,0 +1,54 @@
+const configPath = path.join(__dirname, 'pump_ai_config.json');
+let pumpAIConfig = {};
+try {
+  pumpAIConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+} catch (err) {
+  logMessage(`Error loading configuration: ${err}`);
+  // Provide a fallback configuration if needed
+  pumpAIConfig = {
+    pump: {
+      id: "pump_01",
+      name: "Main Process Pump",
+      controlMode: "automatic",
+      status: "running"
+    },
+    analogueInput: {
+      channel: "AI_01",
+      description: "Pressure/Flow sensor input",
+      setpoint: 75.0,
+      thresholds: {
+        HH: 95.0,
+        H: 85.0,
+        L: 65.0,
+        LL: 55.0
+      },
+      units: "psi"
+    },
+    graphSettings: {
+      refreshInterval: 5,
+      historyDuration: "24h",
+      display: {
+        showSetpoint: true,
+        showThresholds: true,
+        graphType: "line"
+      }
+    },
+    alarms: {
+      actions: {
+        HH: "triggerCriticalAlarm",
+        H: "triggerHighAlarm",
+        L: "triggerLowAlarm",
+        LL: "triggerCriticalAlarm"
+      },
+      notifications: {
+        email: "alerts@yourcompany.com",
+        sms: "+1234567890"
+      }
+    },
+    logging: {
+      enable: true,
+      logInterval: 60,
+      storage: "local"
+    }
+  };
+}
