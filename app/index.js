@@ -31,6 +31,19 @@ const createWindow = () => {
     }, 1000)
 }
 
+const { pumpAIModule } = require('./modules/pump_ai/pump_ai_module');
+
+// Optionally add event listeners:
+pumpAIModule.on('data', (data) => {
+  // Update UI or graphs
+});
+pumpAIModule.on('alarm', (alarmDetails) => {
+  // Handle alarm notifications
+});
+pumpAIModule.on('clearAlarm', (info) => {
+  // Clear alarm displays
+});
+
 app.whenReady().then(() => {
     createWindow()
 })
